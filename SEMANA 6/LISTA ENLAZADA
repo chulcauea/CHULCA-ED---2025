@@ -1,0 +1,78 @@
+public class ListaInvertida {
+
+    // Nodo interno de la lista
+    static class Nodo {
+        int dato;
+        Nodo siguiente;
+
+        Nodo(int dato) {
+            this.dato = dato;
+            this.siguiente = null;
+        }
+    }
+
+    // Clase de la lista enlazada
+    static class ListaEnlazada {
+        Nodo cabeza;
+
+        // Método para agregar elementos al final
+        public void agregar(int dato) {
+            Nodo nuevo = new Nodo(dato);
+            if (cabeza == null) {
+                cabeza = nuevo;
+            } else {
+                Nodo actual = cabeza;
+                while (actual.siguiente != null) {
+                    actual = actual.siguiente;
+                }
+                actual.siguiente = nuevo;
+            }
+        }
+
+        // Método para invertir la lista
+        public void invertir() {
+            Nodo anterior = null;
+            Nodo actual = cabeza;
+            Nodo siguiente = null;
+
+            while (actual != null) {
+                siguiente = actual.siguiente;
+                actual.siguiente = anterior;
+                anterior = actual;
+                actual = siguiente;
+            }
+
+            cabeza = anterior;
+        }
+
+        // Método para imprimir la lista
+        public void imprimir() {
+            Nodo actual = cabeza;
+            while (actual != null) {
+                System.out.print(actual.dato + " ");
+                actual = actual.siguiente;
+            }
+            System.out.println();
+        }
+    }
+
+    // Programa principal
+    public static void main(String[] args) {
+        ListaEnlazada lista = new ListaEnlazada();
+
+        // Agregamos algunos elementos
+        lista.agregar(1);
+        lista.agregar(2);
+        lista.agregar(3);
+        lista.agregar(4);
+        lista.agregar(5);
+
+        System.out.println("Lista original:");
+        lista.imprimir();
+
+        lista.invertir();
+
+        System.out.println("Lista invertida:");
+        lista.imprimir();
+    }
+}
