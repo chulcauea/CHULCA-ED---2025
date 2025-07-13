@@ -1,0 +1,55 @@
+import java.util.Stack;
+
+public class TorresDeHanoiConPilas {
+
+    public static void main(String[] args) {
+        int n = 3; // Número de discos
+        Stack<Integer> torreOrigen = new Stack<>();
+        Stack<Integer> torreAuxiliar = new Stack<>();
+        Stack<Integer> torreDestino = new Stack<>();
+
+        // Inicializar torreOrigen con discos (el disco más grande tiene el número más alto)
+        for (int i = n; i >= 1; i--) {
+            torreOrigen.push(i);
+        }
+
+        // Mostrar estado inicial
+        System.out.println("Estado inicial:");
+        mostrarTorres(torreOrigen, torreAuxiliar, torreDestino);
+
+        // Resolver el problema
+        resolverHanoi(n, torreOrigen, torreAuxiliar, torreDestino, "Origen", "Auxiliar", "Destino");
+    }
+
+    public static void resolverHanoi(int n, Stack<Integer> origen, Stack<Integer> auxiliar, Stack<Integer> destino,
+                                     String nombreOrigen, String nombreAuxiliar, String nombreDestino) {
+        if (n == 1) {
+            moverDisco(origen, destino, nombreOrigen, nombreDestino);
+            mostrarTorres(origen, auxiliar, destino);
+            return;
+        }
+
+        // Paso 1: Mover n-1 discos de origen a auxiliar
+        resolverHanoi(n - 1, origen, destino, auxiliar, nombreOrigen, nombreDestino, nombreAuxiliar);
+
+        // Paso 2: Mover el disco restante al destino
+        moverDisco(origen, destino, nombreOrigen, nombreDestino);
+        mostrarTorres(origen, auxiliar, destino);
+
+        // Paso 3: Mover los n-1 discos de auxiliar a destino
+        resolverHanoi(n - 1, auxiliar, origen, destino, nombreAuxiliar, nombreOrigen, nombreDestino);
+    }
+
+    public static void moverDisco(Stack<Integer> desde, Stack<Integer> hacia, String nombreDesde, String nombreHacia) {
+        int disco = desde.pop();
+        hacia.push(disco);
+        System.out.println("Mover disco " + disco + " de " + nombreDesde + " a " + nombreHacia);
+    }
+
+    public static void mostrarTorres(Stack<Integer> origen, Stack<Integer> auxiliar, Stack<Integer> destino) {
+        System.out.println("Torre Origen: " + origen);
+        System.out.println("Torre Auxiliar: " + auxiliar);
+        System.out.println("Torre Destino: " + destino);
+        System.out.println("--------------------------------------");
+    }
+}

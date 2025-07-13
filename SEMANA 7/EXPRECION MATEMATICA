@@ -1,0 +1,45 @@
+import java.util.Stack;
+
+public class VerificadorBalanceo {
+
+    public static boolean estaBalanceado(String expresion) {
+        Stack<Character> pila = new Stack<>();
+
+        for (int i = 0; i < expresion.length(); i++) {
+            char c = expresion.charAt(i);
+
+            // Si es un carácter de apertura, lo apilamos
+            if (c == '(' || c == '{' || c == '[') {
+                pila.push(c);
+            } 
+            // Si es un carácter de cierre, verificamos si coincide con el tope de la pila
+            else if (c == ')' || c == '}' || c == ']') {
+                if (pila.isEmpty()) {
+                    return false; // No hay apertura correspondiente
+                }
+                char tope = pila.pop();
+                if (!esParejaCorrecta(tope, c)) {
+                    return false; // Los símbolos no coinciden
+                }
+            }
+        }
+        // Si la pila queda vacía, todos los símbolos están balanceados
+        return pila.isEmpty();
+    }
+
+    private static boolean esParejaCorrecta(char apertura, char cierre) {
+        return (apertura == '(' && cierre == ')') ||
+               (apertura == '{' && cierre == '}') ||
+               (apertura == '[' && cierre == ']');
+    }
+
+    public static void main(String[] args) {
+        String expresion = "{7 + (8 * 5) - [(9 - 7) + (4 + 1)]}";
+
+        if (estaBalanceado(expresion)) {
+            System.out.println("Fórmula balanceada.");
+        } else {
+            System.out.println("Fórmula no balanceada.");
+        }
+    }
+}
